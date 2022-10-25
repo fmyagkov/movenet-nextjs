@@ -9,6 +9,7 @@
   "dependencies": {
     "@material-tailwind/react": "^1.2.4",
     "@tensorflow-models/pose-detection": "^2.0.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.0.0",
     "@tensorflow/tfjs-core": "^3.21.0",
     "chart.js": "^3.9.1",
     "next": "latest",

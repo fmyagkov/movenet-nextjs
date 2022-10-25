@@ -9,6 +9,9 @@ import '@tensorflow/tfjs-backend-webgl'
 //React webcam imports
 import Webcam from 'react-webcam'
 
+//Material UI imports
+import { Button } from '@material-tailwind/react'
+
 //My imports
 import BarChart from '../components/BarChart'
 import { detectHelper } from '../utilities/detectHelper'
@@ -22,6 +25,9 @@ export default function VideoTest() {
   const [squatCount, setSquatCount] = useState(0)
   const [leftHipYCoordinate, setleftHipYCoordinate] = useState(0)
 
+  // state looking after intervalId
+  const [intervalId, setIntervalId] = useState(null)
+
   // Main function
   const runPoseDetection = async () => {
     // Load the Movenet model
@@ -34,9 +40,10 @@ export default function VideoTest() {
     )
 
     //  Loop and detect keypoints on the body
-    setInterval(() => {
+    const newIntervalId = setInterval(() => {
       void detect(net)
     }, 10)
+    setIntervalId(newIntervalId)
   }
 
   // Detect function
@@ -85,7 +92,7 @@ export default function VideoTest() {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
     // Set our min confidence score needed to render a keypoint
-    const minPartConfidence = 0.3
+    const minPartConfidence = 0.5
     if (
       leftHip.score > minPartConfidence &&
       rightHip.score > minPartConfidence
@@ -143,12 +150,20 @@ export default function VideoTest() {
     }
   }
 
-  useEffect(() => {
-    void runPoseDetection()
-  }, [])
+  function startPoseDetection() {
+    if (intervalId === null) {
+      void runPoseDetection()
+    } else {
+      clearInterval(intervalId)
+      setIntervalId(null)
+    }
+  }
 
   return (
     <>
+      <Button onClick={startPoseDetection} className="m-5">
+        {intervalId === null ? 'Start' : 'Stop'}
+      </Button>
       <div>
         <Webcam
           ref={webcamRef}
