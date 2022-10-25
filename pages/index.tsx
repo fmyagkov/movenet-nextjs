@@ -5,7 +5,7 @@ import { Button } from '@material-tailwind/react'
 const Home: NextPage = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
-      <Link href="/vidtest">
+      <Link href="/movenetdemo">
         <Button>Start MoveNet App</Button>
       </Link>
     </div>
