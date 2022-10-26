@@ -26,7 +26,7 @@ export default function VideoTest() {
   const [leftHipYCoordinate, setleftHipYCoordinate] = useState(0)
 
   // state looking after intervalId
-  const [intervalId, setIntervalId] = useState(null)
+  const [intervalId, setIntervalId]: any = useState(null)
 
   // Main function
   const runPoseDetection = async () => {
