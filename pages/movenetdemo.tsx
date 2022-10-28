@@ -34,7 +34,8 @@ export default function VideoTest() {
     const net = await poseDetection.createDetector(
       poseDetection.SupportedModels.MoveNet,
       {
-        modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
+        // modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
+        modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
         enableSmoothing: true,
       }
     )
@@ -66,37 +67,28 @@ export default function VideoTest() {
   let squatCountTemp: any = []
 
   const countSquatsAndRender = (keypoints: any, ctx: any) => {
-    // Get all coordinates from the keypoints array
+    // Get coordinate for left hip from the keypoints array
     const leftHip = keypoints[11]
-    const rightHip = keypoints[12]
-    const leftKnee = keypoints[13]
-    const rightKnee = keypoints[14]
-    const leftAnkle = keypoints[15]
-    const rightAnkle = keypoints[16]
-
     const leftHipY = leftHip.y
-    const rightHipY = rightHip.y
-    const leftKneeY = leftKnee.y
-    const rightKneeY = rightKnee.y
-    const leftAnkleY = leftAnkle.y
-    const rightAnkleY = rightAnkle.y
-
-    const leftHipX = leftHip.x
-    const rightHipX = rightHip.x
-    const leftKneeX = leftKnee.x
-    const rightKneeX = rightKnee.x
-    const leftAnkleX = leftAnkle.x
-    const rightAnkleX = rightAnkle.x
 
     // Clear the canvas
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
     // Set our min confidence score needed to render a keypoint
-    const minPartConfidence = 0.5
-    if (
-      leftHip.score > minPartConfidence &&
-      rightHip.score > minPartConfidence
-    ) {
+    const minPartConfidence = 0.4
+
+    // Render all keypoints
+    keypoints.forEach((keypoint: any) => {
+      const { y, x, score } = keypoint
+      if (score > minPartConfidence) {
+        ctx.beginPath()
+        ctx.arc(x, y, 5, 0, 2 * Math.PI)
+        ctx.fillStyle = 'aqua'
+        ctx.fill()
+      }
+    })
+
+    if (leftHip.score > minPartConfidence) {
       // Add left hip y to array
       leftHipArrayTemp.push(leftHipY)
 
@@ -116,37 +108,6 @@ export default function VideoTest() {
       // Set squat state and hip y coord state in order to render them
       setSquatCount(squatCountTemp.length)
       setleftHipYCoordinate(leftHipY)
-
-      // Render the keypoints
-      ctx.beginPath()
-      ctx.arc(leftHipX, leftHipY, 5, 0, 2 * Math.PI)
-      ctx.fillStyle = 'red'
-      ctx.fill()
-
-      ctx.beginPath()
-      ctx.arc(rightHipX, rightHipY, 5, 0, 2 * Math.PI)
-      ctx.fillStyle = 'red'
-      ctx.fill()
-
-      ctx.beginPath()
-      ctx.arc(leftKneeX, leftKneeY, 5, 0, 2 * Math.PI)
-      ctx.fillStyle = 'red'
-      ctx.fill()
-
-      ctx.beginPath()
-      ctx.arc(rightKneeX, rightKneeY, 5, 0, 2 * Math.PI)
-      ctx.fillStyle = 'red'
-      ctx.fill()
-
-      ctx.beginPath()
-      ctx.arc(leftAnkleX, leftAnkleY, 5, 0, 2 * Math.PI)
-      ctx.fillStyle = 'red'
-      ctx.fill()
-
-      ctx.beginPath()
-      ctx.arc(rightAnkleX, rightAnkleY, 5, 0, 2 * Math.PI)
-      ctx.fillStyle = 'red'
-      ctx.fill()
     }
   }
 

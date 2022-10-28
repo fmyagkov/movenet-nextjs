@@ -10,6 +10,7 @@ import {
   Legend,
   Filler,
 } from 'chart.js'
+import React from 'react'
 
 ChartJS.register(
   CategoryScale,

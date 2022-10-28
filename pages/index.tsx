@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { Button } from '@material-tailwind/react'
+import React from 'react'
 
 const Home: NextPage = () => {
   return (
