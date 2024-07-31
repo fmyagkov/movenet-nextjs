@@ -74,6 +74,32 @@ export default function VideoTest() {
     // Clear the canvas
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
+    // Draw a horizontal line at y=25
+    ctx.beginPath()
+    ctx.moveTo(0, 25)
+    ctx.lineTo(ctx.canvas.width, 25)
+    ctx.strokeStyle = 'magenta'
+    ctx.lineWidth = 5
+    ctx.stroke()
+
+    // Draw text next to the line
+    ctx.font = '14px Arial'
+    ctx.fillStyle = 'magenta'
+    ctx.fillText('Shoulder Position at Start', 20, 20)
+
+    // Draw a horizontal line at y=430
+    ctx.beginPath()
+    ctx.moveTo(0, 430)
+    ctx.lineTo(ctx.canvas.width, 430)
+    ctx.strokeStyle = 'magenta'
+    ctx.lineWidth = 5
+    ctx.stroke()
+
+    // Draw text next to the line
+    ctx.font = '14px Arial'
+    ctx.fillStyle = 'magenta'
+    ctx.fillText('Knee Position at Start', 20, 425)
+
     // Set our min confidence score needed to render a keypoint
     const minPartConfidence = 0.4
 
@@ -99,8 +125,8 @@ export default function VideoTest() {
 
       // Check if a squat has just happened
       if (
-        leftHipArrayTemp.slice(-1) < 200 &&
-        leftHipArrayTemp.slice(-2, -1) > 200
+        leftHipArrayTemp.slice(-1) < 300 &&
+        leftHipArrayTemp.slice(-2, -1) > 300
       ) {
         squatCountTemp.push(1)
       }
@@ -121,49 +147,23 @@ export default function VideoTest() {
   }
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Button onClick={startPoseDetection} className="m-5">
         {intervalId === null ? 'Start' : 'Stop'}
       </Button>
-      <div>
-        <Webcam
-          ref={webcamRef}
-          style={{
-            position: 'absolute',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            zIndex: -1,
-            width: 640,
-            height: 560,
-          }}
-        />
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: 'absolute',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            left: 0,
-            right: 0,
-            textAlign: 'center',
-            zIndex: -1,
-            width: 640,
-            height: 560,
-          }}
-        />
-        <BarChart recievedData={leftHipYCoordinate} />
+      <div className="flex-grow flex flex-col items-center space-y-2">
+        <div className="relative webcam-container">
+          <Webcam ref={webcamRef} className="webcam" />
+          <canvas ref={canvasRef} className="canvas-overlay" />
+        </div>
+        <div className="flex space-x-2">
+          <div className="border border-black flex flex-col items-center justify-center w-20 h-40">
+            <h1 className="font-semibold">Reps</h1>
+            <div className="font-bold">{squatCount}</div>
+          </div>
+          <BarChart recievedData={leftHipYCoordinate} />
+        </div>
       </div>
-      <div
-        style={{
-          marginTop: 20,
-          marginLeft: 20,
-        }}
-      >
-        <h1>Squats: {squatCount}</h1>
-      </div>
-    </>
+    </div>
   )
 }

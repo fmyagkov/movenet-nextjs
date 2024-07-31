@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.webcam-container {
+  width: 100%;
+  max-width: 640px;
+  height: 50vh;
+  overflow: hidden;
+}
+
+.webcam,
+.canvas-overlay {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.canvas-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.stats-box {
+  width: 100%;
+  height: 50vh;
+  background-color: #f7f7f7;
+}
+
+@media (max-width: 640px) {
+  .webcam-container {
+    height: 40vh;
+  }
+
+  .stats-box {
+    height: 60vh;
+  }
+}
