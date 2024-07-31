@@ -76,29 +76,29 @@ export default function VideoTest() {
 
     // Draw a horizontal line at y=25
     ctx.beginPath()
-    ctx.moveTo(0, 25)
-    ctx.lineTo(ctx.canvas.width, 25)
+    ctx.moveTo(0, 40)
+    ctx.lineTo(ctx.canvas.width, 40)
     ctx.strokeStyle = 'magenta'
-    ctx.lineWidth = 5
+    ctx.lineWidth = 2
     ctx.stroke()
 
     // Draw text next to the line
     ctx.font = '14px Arial'
     ctx.fillStyle = 'magenta'
-    ctx.fillText('Shoulder Position at Start', 20, 20)
+    ctx.fillText('Shoulder Position at Start', 200, 58)
 
     // Draw a horizontal line at y=430
     ctx.beginPath()
     ctx.moveTo(0, 430)
     ctx.lineTo(ctx.canvas.width, 430)
     ctx.strokeStyle = 'magenta'
-    ctx.lineWidth = 5
+    ctx.lineWidth = 2
     ctx.stroke()
 
     // Draw text next to the line
     ctx.font = '14px Arial'
     ctx.fillStyle = 'magenta'
-    ctx.fillText('Knee Position at Start', 20, 425)
+    ctx.fillText('Knee Position at Start', 200, 425)
 
     // Set our min confidence score needed to render a keypoint
     const minPartConfidence = 0.4
